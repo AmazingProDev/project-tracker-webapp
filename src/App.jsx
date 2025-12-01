@@ -1226,7 +1226,7 @@ function App() {
           {/* Stats Grid */}
           <div className="stats-grid">
             <div
-              className="card stat-card"
+              className="card stat-card area-total"
               onClick={() => { setFilter('all'); setTaskNameFilter('all'); scrollToTable(); }}
               style={{ cursor: 'pointer', transition: 'transform 0.2s', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}
               onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
@@ -1236,116 +1236,112 @@ function App() {
               <span className="stat-value">{stats.total}</span>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              <div
-                className="card stat-card"
-                style={{ borderLeft: '4px solid var(--color-danger)', cursor: 'pointer', transition: 'transform 0.2s' }}
-                onClick={() => { setFilter('delayed'); setTaskNameFilter('all'); scrollToTable(); }}
-                onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
-                onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
-              >
-                <span className="stat-label flex-center" style={{ justifyContent: 'space-between' }}>
-                  Delayed
-                  <AlertCircle size={16} color="var(--color-danger)" />
-                </span>
-                <span className="stat-value" style={{ color: 'var(--color-danger)' }}>{stats.delayed}</span>
-              </div>
-
-              <div
-                className="card stat-card animate-pulse-red"
-                style={{ borderLeft: '4px solid #ef4444', cursor: 'pointer', transition: 'transform 0.2s', position: 'relative' }}
-                onClick={() => { setFilter('deadlineNow'); setTaskNameFilter('all'); scrollToTable(); }}
-                onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-              >
-                <span className="stat-label flex-center" style={{ justifyContent: 'space-between' }}>
-                  Deadline Now
-                  <AlertTriangle size={16} color="#ef4444" />
-                </span>
-                <span className="stat-value" style={{ color: '#ef4444' }}>{stats.deadlineNow}</span>
-
-                {stats.deadlineNow > 0 && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent card click
-                      console.log('Email button clicked');
-
-                      // Filter tasks with Deadline Now
-                      const urgentTasks = tasks.filter(t => {
-                        const metrics = calculateTimeMetrics(t.status, parseDate(t.startDate), parseDate(t.deadline));
-                        return metrics.display === 'Deadline Now';
-                      });
-
-                      console.log('Urgent tasks found:', urgentTasks.length);
-
-                      if (urgentTasks.length === 0) {
-                        console.log('No urgent tasks to email');
-                        return;
-                      }
-
-                      const subject = encodeURIComponent(`Urgent: ${urgentTasks.length} Tasks Due Today`);
-
-                      let body = `Hello,\n\nThe following tasks are due today:\n\n`;
-                      urgentTasks.forEach(t => {
-                        body += `- ${t.name} (Assignee: ${t.assignee || 'Unassigned'})\n`;
-                      });
-                      body += `\nPlease check them immediately.\n\nBest regards,`;
-
-                      const bodyEncoded = encodeURIComponent(body);
-                      const mailtoLink = `mailto:ma.elqorchi@iam.ma?subject=${subject}&body=${bodyEncoded}`;
-                      console.log('Opening mailto link:', mailtoLink);
-                      window.location.href = mailtoLink;
-                    }}
-                    style={{
-                      marginTop: '0.5rem',
-                      padding: '0.25rem 0.5rem',
-                      fontSize: '0.75rem',
-                      backgroundColor: '#ef4444',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.25rem',
-                      width: 'fit-content'
-                    }}
-                  >
-                    <Mail size={12} />
-                    Email Report
-                  </button>
-                )}
-              </div>
+            <div
+              className="card stat-card area-delayed"
+              style={{ borderLeft: '4px solid var(--color-danger)', cursor: 'pointer', transition: 'transform 0.2s' }}
+              onClick={() => { setFilter('delayed'); setTaskNameFilter('all'); scrollToTable(); }}
+              onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+              onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              <span className="stat-label flex-center" style={{ justifyContent: 'space-between' }}>
+                Delayed
+                <AlertCircle size={16} color="var(--color-danger)" />
+              </span>
+              <span className="stat-value" style={{ color: 'var(--color-danger)' }}>{stats.delayed}</span>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              <div
-                className="card stat-card"
-                style={{ borderLeft: '4px solid var(--color-success)', cursor: 'pointer', transition: 'transform 0.2s' }}
-                onClick={() => { setFilter('completed'); setTaskNameFilter('all'); scrollToTable(); }}
-                onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
-                onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
-              >
-                <span className="stat-label flex-center" style={{ justifyContent: 'space-between' }}>
-                  Completed
-                  <CheckCircle size={16} color="var(--color-success)" />
-                </span>
-                <span className="stat-value" style={{ color: 'var(--color-success)' }}>{stats.completed}</span>
-              </div>
+            <div
+              className="card stat-card area-deadline animate-pulse-red"
+              style={{ borderLeft: '4px solid #ef4444', cursor: 'pointer', transition: 'transform 0.2s', position: 'relative' }}
+              onClick={() => { setFilter('deadlineNow'); setTaskNameFilter('all'); scrollToTable(); }}
+              onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+              onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+            >
+              <span className="stat-label flex-center" style={{ justifyContent: 'space-between' }}>
+                Deadline Now
+                <AlertTriangle size={16} color="#ef4444" />
+              </span>
+              <span className="stat-value" style={{ color: '#ef4444' }}>{stats.deadlineNow}</span>
 
-              <div
-                className="card stat-card"
-                style={{ borderLeft: '4px solid var(--color-warning)', cursor: 'pointer', transition: 'transform 0.2s' }}
-                onClick={() => { setFilter('in-progress'); setTaskNameFilter('all'); scrollToTable(); }}
-                onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
-                onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
-              >
-                <span className="stat-label flex-center" style={{ justifyContent: 'space-between' }}>
-                  In Progress
-                  <Clock size={16} color="var(--color-warning)" />
-                </span>
-                <span className="stat-value" style={{ color: 'var(--color-warning)' }}>{stats.inProgress}</span>
-              </div>
+              {stats.deadlineNow > 0 && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent card click
+                    console.log('Email button clicked');
+
+                    // Filter tasks with Deadline Now
+                    const urgentTasks = tasks.filter(t => {
+                      const metrics = calculateTimeMetrics(t.status, parseDate(t.startDate), parseDate(t.deadline));
+                      return metrics.display === 'Deadline Now';
+                    });
+
+                    console.log('Urgent tasks found:', urgentTasks.length);
+
+                    if (urgentTasks.length === 0) {
+                      console.log('No urgent tasks to email');
+                      return;
+                    }
+
+                    const subject = encodeURIComponent(`Urgent: ${urgentTasks.length} Tasks Due Today`);
+
+                    let body = `Hello,\n\nThe following tasks are due today:\n\n`;
+                    urgentTasks.forEach(t => {
+                      body += `- ${t.name} (Assignee: ${t.assignee || 'Unassigned'})\n`;
+                    });
+                    body += `\nPlease check them immediately.\n\nBest regards,`;
+
+                    const bodyEncoded = encodeURIComponent(body);
+                    const mailtoLink = `mailto:ma.elqorchi@iam.ma?subject=${subject}&body=${bodyEncoded}`;
+                    console.log('Opening mailto link:', mailtoLink);
+                    window.location.href = mailtoLink;
+                  }}
+                  style={{
+                    marginTop: '0.5rem',
+                    padding: '0.25rem 0.5rem',
+                    fontSize: '0.75rem',
+                    backgroundColor: '#ef4444',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.25rem',
+                    width: 'fit-content'
+                  }}
+                >
+                  <Mail size={12} />
+                  Email Report
+                </button>
+              )}
+            </div>
+
+            <div
+              className="card stat-card area-completed"
+              style={{ borderLeft: '4px solid var(--color-success)', cursor: 'pointer', transition: 'transform 0.2s' }}
+              onClick={() => { setFilter('completed'); setTaskNameFilter('all'); scrollToTable(); }}
+              onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+              onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              <span className="stat-label flex-center" style={{ justifyContent: 'space-between' }}>
+                Completed
+                <CheckCircle size={16} color="var(--color-success)" />
+              </span>
+              <span className="stat-value" style={{ color: 'var(--color-success)' }}>{stats.completed}</span>
+            </div>
+
+            <div
+              className="card stat-card area-inprogress"
+              style={{ borderLeft: '4px solid var(--color-warning)', cursor: 'pointer', transition: 'transform 0.2s' }}
+              onClick={() => { setFilter('in-progress'); setTaskNameFilter('all'); scrollToTable(); }}
+              onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+              onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              <span className="stat-label flex-center" style={{ justifyContent: 'space-between' }}>
+                In Progress
+                <Clock size={16} color="var(--color-warning)" />
+              </span>
+              <span className="stat-value" style={{ color: 'var(--color-warning)' }}>{stats.inProgress}</span>
             </div>
           </div>
 

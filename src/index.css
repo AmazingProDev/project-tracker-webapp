@@ -78,7 +78,10 @@ body {
 /* Dashboard Grid */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas:
+    "total delayed completed"
+    "total deadline inprogress";
   gap: 1.5rem;
   margin-bottom: 2rem;
 }
@@ -319,9 +322,33 @@ tr:hover td {
   }
 
   .stats-grid {
-    grid-template-columns: 1fr;
-    /* Stack cards */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "delayed completed"
+      "deadline inprogress"
+      "total total";
     gap: 1rem;
+  }
+
+  .area-total {
+    grid-area: total;
+  }
+
+  .area-delayed {
+    grid-area: delayed;
+  }
+
+  .area-deadline {
+    grid-area: deadline;
+  }
+
+  .area-completed {
+    grid-area: completed;
+  }
+
+  .area-inprogress {
+    grid-area: inprogress;
   }
 
   .upload-zone {
