@@ -1117,7 +1117,7 @@ function App() {
         <div>
           <h1 className="title">Project Tracker</h1>
           <p style={{ color: 'var(--color-text-muted)' }}>
-            {fileName ? `Viewing: ${fileName}` : 'Upload Excel or Connect Google Sheet'}
+            {fileName ? `Viewing: ${fileName}` : 'Created by Abdelilah ELQORCHI Email: e@iam.ma'}
           </p>
         </div>
         {tasks.length > 0 && (
