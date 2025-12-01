@@ -293,3 +293,67 @@ tr:hover td {
 .animate-pulse-red {
   animation: pulse-red 2s infinite;
 }
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    width: 100%;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .header>div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    /* Stack cards */
+    gap: 1rem;
+  }
+
+  .upload-zone {
+    padding: 1.5rem;
+  }
+
+  .table-container {
+    border-radius: var(--radius-md);
+  }
+
+  /* Ensure table scrolls smoothly */
+  .table-wrapper {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  th,
+  td {
+    padding: 0.75rem 1rem;
+    font-size: 0.8125rem;
+    /* Slightly smaller text */
+  }
+
+  /* Adjust modal sizing */
+  .card[style*="max-width: 500px"] {
+    width: 95% !important;
+    padding: 1.25rem !important;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  /* Make buttons easier to tap */
+  .btn {
+    min-height: 44px;
+  }
+}
