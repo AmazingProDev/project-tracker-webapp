@@ -2017,15 +2017,7 @@ function App() {
             <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1.5rem' }}>Airtable Settings</h2>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <div style={{ background: 'var(--color-bg-secondary)', padding: '1rem', borderRadius: 'var(--radius-md)', fontSize: '0.875rem' }}>
-                <p style={{ marginBottom: '0.5rem' }}><strong>Instructions:</strong></p>
-                <ol style={{ paddingLeft: '1.2rem', margin: 0 }}>
-                  <li>Create a new Base in Airtable</li>
-                  <li>Create a table named "Tasks" (or customize below)</li>
-                  <li>Add columns: <strong>Task Name</strong> (Text), <strong>Description</strong> (Text), <strong>Assignee</strong> (Text), <strong>Status</strong> (Select), <strong>Start Date</strong> (Date), <strong>Deadline</strong> (Date)</li>
-                  <li>Get your Personal Access Token (API Key) and Base ID from Airtable Developer Hub</li>
-                </ol>
-              </div>
+
 
               <div>
                 <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: 500 }}>
@@ -2096,85 +2088,7 @@ function App() {
                 />
               </div>
 
-              <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: '1.5rem', marginTop: '1.5rem' }}>
-                <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem' }}>Custom Fields</h3>
-                <p style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)', marginBottom: '1rem' }}>
-                  Add custom fields to your tasks. These will appear in the form and table.
-                </p>
 
-                {customFields.map((field, index) => (
-                  <div key={index} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', alignItems: 'center' }}>
-                    <input
-                      type="text"
-                      value={field.name}
-                      onChange={(e) => {
-                        const updated = [...customFields];
-                        updated[index].name = e.target.value;
-                        setCustomFields(updated);
-                        localStorage.setItem('customFields', JSON.stringify(updated));
-                      }}
-                      placeholder="Field Name"
-                      style={{
-                        flex: 1,
-                        padding: '0.5rem',
-                        borderRadius: 'var(--radius-md)',
-                        border: '1px solid var(--color-border)',
-                        fontSize: '0.875rem'
-                      }}
-                    />
-                    <select
-                      value={field.type}
-                      onChange={(e) => {
-                        const updated = [...customFields];
-                        updated[index].type = e.target.value;
-                        setCustomFields(updated);
-                        localStorage.setItem('customFields', JSON.stringify(updated));
-                      }}
-                      style={{
-                        padding: '0.5rem',
-                        borderRadius: 'var(--radius-md)',
-                        border: '1px solid var(--color-border)',
-                        fontSize: '0.875rem',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      <option value="text">Text</option>
-                      <option value="number">Number</option>
-                      <option value="date">Date</option>
-                    </select>
-                    <button
-                      onClick={() => {
-                        const updated = customFields.filter((_, i) => i !== index);
-                        setCustomFields(updated);
-                        localStorage.setItem('customFields', JSON.stringify(updated));
-                      }}
-                      style={{
-                        padding: '0.5rem 0.75rem',
-                        background: 'var(--color-danger)',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: 'var(--radius-md)',
-                        cursor: 'pointer',
-                        fontSize: '0.875rem'
-                      }}
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ))}
-
-                <button
-                  onClick={() => {
-                    const updated = [...customFields, { name: '', type: 'text' }];
-                    setCustomFields(updated);
-                    localStorage.setItem('customFields', JSON.stringify(updated));
-                  }}
-                  className="btn btn-outline"
-                  style={{ marginTop: '0.5rem', width: '100%' }}
-                >
-                  + Add Custom Field
-                </button>
-              </div>
 
               <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1.5rem' }}>
                 <button className="btn btn-primary" onClick={() => setShowSettingsModal(false)} style={{ flex: 1 }}>
