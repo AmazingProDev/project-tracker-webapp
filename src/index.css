@@ -27,6 +27,21 @@
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
+[data-theme='dark'] {
+  --color-bg: #0f172a;
+  --color-surface: #1e293b;
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-text-main: #f8fafc;
+  --color-text-muted: #94a3b8;
+  --color-border: #334155;
+  --color-danger-bg: #450a0a;
+  --color-danger-text: #fca5a5;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+}
+
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -325,14 +340,25 @@ tr:hover td {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
+      "total total"
       "delayed completed"
-      "deadline inprogress"
-      "total total";
+      "deadline inprogress";
     gap: 1rem;
   }
 
   .area-total {
     grid-area: total;
+    background: var(--color-primary) !important;
+    color: white !important;
+    border: none !important;
+  }
+
+  .area-total .stat-label {
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+
+  .area-total .stat-value {
+    font-size: 3rem !important;
   }
 
   .area-delayed {

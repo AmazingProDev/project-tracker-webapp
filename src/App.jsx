@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import * as XLSX from 'xlsx';
-import { Upload, FileSpreadsheet, AlertCircle, CheckCircle, Clock, Search, Settings, Link as LinkIcon, RotateCw, AlertTriangle, Mail, Trash2 } from 'lucide-react';
+import { Upload, FileSpreadsheet, AlertCircle, CheckCircle, Clock, Search, Settings, Link as LinkIcon, RotateCw, AlertTriangle, Mail, Trash2, Moon, Sun, RefreshCw } from 'lucide-react';
 
 function App() {
   const [tasks, setTasks] = useState(() => {
@@ -54,11 +54,34 @@ function App() {
   const [newColumnName, setNewColumnName] = useState('');
   const [newColumnType, setNewColumnType] = useState('text');
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem('theme') === 'dark';
+  });
   const tableRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (darkMode) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [darkMode]);
 
   const scrollToTable = () => {
     if (tableRef.current) {
       tableRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleRefresh = () => {
+    if (sheetUrl) {
+      handleSheetLoad();
+    } else if (airtableConfig.apiKey && airtableConfig.baseId) {
+      handleAirtableLoad();
+    } else {
+      window.location.reload();
     }
   };
 
@@ -1121,7 +1144,13 @@ function App() {
           </p>
         </div>
         {tasks.length > 0 && (
-          <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <button className="btn btn-outline" onClick={() => setDarkMode(!darkMode)} title="Toggle Dark Mode">
+              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+            <button className="btn btn-outline" onClick={handleRefresh} title="Refresh Data">
+              <RefreshCw size={18} />
+            </button>
             <button className="btn btn-primary" onClick={() => setShowAddTaskModal(true)}>
               + Add Task
             </button>
