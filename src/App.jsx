@@ -75,11 +75,11 @@ function App() {
     }
   };
 
-  const handleRefresh = () => {
+  const handleRefresh = async () => {
     if (sheetUrl) {
-      handleSheetLoad();
+      await handleSheetLoad();
     } else if (airtableConfig.apiKey && airtableConfig.baseId) {
-      handleAirtableLoad();
+      await handleAirtableLoad();
     } else {
       window.location.reload();
     }
