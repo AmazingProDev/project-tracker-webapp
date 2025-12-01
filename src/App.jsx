@@ -1140,8 +1140,13 @@ function App() {
         <div>
           <h1 className="title">Project Tracker</h1>
           <p style={{ color: 'var(--color-text-muted)' }}>
-            {fileName ? `Viewing: ${fileName}` : 'Created by Abdelilah ELQORCHI Email: e@iam.ma'}
+            Created by Abdelilah ELQORCHI Email: e@iam.ma
           </p>
+          {fileName && (
+            <p style={{ fontSize: '0.875rem', color: 'var(--color-primary)', marginTop: '0.25rem', fontWeight: 500 }}>
+              Viewing: {fileName}
+            </p>
+          )}
         </div>
         {tasks.length > 0 && (
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
